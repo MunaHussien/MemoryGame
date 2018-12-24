@@ -51,17 +51,37 @@ var allCards = document.querySelectorAll('.card');
 var openCards = [];
 var numberMoves = 0;
 var moveSpan= document.querySelector('.moves');
-var matchedCards = 0; 
+//var matchedCards = 0; 
+var matchedCards = document.getElementsByClassName("match");
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName("close")[0];
 var timer=0;
-var timerclo= document.querySelector('.timeerClock');
+var timerclo= document.querySelector('.timerClock');
 var timeMin = 60;
 var counter = 0; 
 //var startGameagain = document.querySelector('.restart');
+
+var second = 0, minute = 0; hour = 0;
+var timer = document.querySelector(".timerClock"); 
+var interval; 
+function startTimer(){
+    interval = setInterval(function(){
+         timer.innerHTML = minute+"mins "+second+"secs";
+        second++;
+        if(second == 60){
+            minute++; 
+            second=0; 
+        } 
+        if(minute == 60){
+            hour++;
+            minute = 0;
+        }
+    },1000);
+} 
 function calcMoves(){
     numberMoves += 1;
     moveSpan.innerText= numberMoves;
+    //startTimer();
 }
 
 function calcMatchedCards(){
@@ -87,35 +107,45 @@ window.onclick = function(event) {
  //startGameagain
  //startGameagain.addEventListener('click',function(e){
     function startGameagain(){
-    initGame(); 
-    playAgain();
-    setGametime();     
- }
- //});
-function playAgain(){
+    
+    //playAgain();
+    //setGametime();
+    counter=0;
+    timerclo.innerText ="";
+    moveSpan.innerText="";
     timer=0;
     numberMoves=0;
     matchedCards=0;
-}
+    initGame(); 
 
-function setGametime() {
-    timer = setTimeout(function(){ alert("Game over") }, 60000);    
-}
-function currentTime(){
-   counter ++;
-    timerclo.innerText = (timeMin - counter) + "s";
-  }
+
+ }
+ //});
+// function playAgain(){
+    
+// }
+
+// function setGametime() {
+//     timer = setTimeout(function(){ alert("Game over") }, 60000);    
+// }
+// function currentTime(){
+//    counter ++;
+//     timerclo.innerText = (timeMin - counter) + "s";
+//   }
 //setInterval(currentTime,60000);
 // $('#myModal').on('shown.bs.modal', function () {
 //   $('#myInput').trigger('focus')
 // });
 allCards.forEach(function (card) {
     card.addEventListener('click', function (e) {
-        currentTime();
+        //currentTime();
+
+       
         if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')){
             openCards.push(card);
             card.classList.add('open', 'show');
                 //console.log('card is opened ', openCards.length);
+                startTimer();
             if (openCards.length == 2) {
                     // var card1 = openCards[0];
                     // var card2 = openCards[1];
